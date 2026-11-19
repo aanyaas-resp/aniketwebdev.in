@@ -1,87 +1,80 @@
-# Aniket Jamunde - Next.js website + Supabase admin panel
+# Aniket Jamunde — Portfolio & Business Website
 
-Website: https://aniketwebdev.in
+The source code for [aniketwebdev.in](https://aniketwebdev.in), a portfolio and services website for Aniket Jamunde. It includes project and blog pages, a contact form, a configurable admin panel, and an optional AI chat assistant.
 
-## 1. Install and run
+## Run locally
 
-    npm install
-    # Create .env.local with your Supabase URL, anon key, and public site URL
-    npm run dev
+### Requirements
 
-## 2. Set up Supabase (one time)
+- Node.js 18.18 or later
+- npm
+- A Supabase project for the admin panel and contact enquiry storage
 
-1. Create a new Supabase project.
-2. Open SQL Editor, paste and run `supabase/FULL-SETUP.sql`. This single script
-   creates the complete schema, security policies, media bucket, billing,
-   invoice features, starter settings, and client logos.
-3. Authentication -> Providers -> Email: turn OFF "Allow new users to sign up".
-4. Authentication -> Users -> "Add user" with your email and a strong password.
-5. Add your user to the admin list by running this query with your email:
+### Setup
 
-       insert into public.admins (user_id)
-       select id from auth.users where email = 'you@example.com';
+1. From the project directory, install dependencies:
 
-6. Copy the Project URL and anon key (Project Settings -> API) into `.env.local`.
+   ```bash
+   npm install
+   ```
 
-Use `FULL-SETUP.sql` only on a fresh project and run it once. Add your real brand,
-contact, tax and payment details in Theme & Settings before publishing or creating
-invoices. Never put the service_role key in this project. Only the anon key is used.
-## 3. Admin panel
+2. Create `.env.local` in the project root. Copy `.env.example` and fill in the values:
 
-Open `/admin`, sign in, then manage:
+   ```bash
+   cp .env.example .env.local
+   ```
 
-- Theme & Settings: logo (upload or link), brand name, the four palette colors
-  (primary, secondary, highlight, background) with a live preview, contact details,
-  footer credit
-- Images: every image field takes either an uploaded file (stored in Supabase
-  Storage, 5 MB max) or a pasted link
-- Projects: home page project cards (notched design)
-- Testimonials and Clients: public sections are populated from these records
-- Blog posts: SEO title, description, slug, cover, publish date
-- Enquiries: messages from the contact form, with a handled toggle
-- Payments and Invoices: record payments, issue linked invoices, share a client invoice link,
-  print invoices to PDF, and track balances, overdue invoices and credit notes
-- Invoice charts: six-month INR collection chart and current invoice status breakdown
+   On Windows PowerShell, use `Copy-Item .env.example .env.local`.
 
-Security: /admin is guarded by middleware, the admin role is checked on every
-server action, and Supabase row-level security blocks non-admins even if the
-app is bypassed. The admin pages send `noindex`.
+3. Create a Supabase project. In its SQL Editor, run `supabase/FULL-SETUP.sql` once on a fresh database. In Supabase Authentication, disable public sign-ups and create your admin user. Add that user to the admin list:
 
-## 4. SEO / AEO / GEO included
+   ```sql
+   insert into public.admins (user_id)
+   select id from auth.users where email = 'you@example.com';
+   ```
 
-- Metadata API on every page, canonical URLs, Open Graph, Twitter cards
-- JSON-LD: Organization, WebSite, BlogPosting
-- sitemap.xml (static pages, service pages, published blog posts) and robots.txt
-- robots.txt allows AI crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended)
-- public/llms.txt summarises the business for answer engines
-- Security headers in next.config.ts
+4. Start the development server:
 
-`NEXT_PUBLIC_SITE_URL` is set to `https://aniketwebdev.in`. The `llms.txt` file
-and canonical metadata use the same public domain.
+   ```bash
+   npm run dev
+   ```
 
-## Known gaps (please read)
+5. Visit [http://localhost:3000](http://localhost:3000). The admin panel is at `/admin`.
 
-- The Clients and Testimonials sections read their content from Supabase. Add
-  real records in the admin panel to display them.
-- The Services pages still read from src/lib/services.ts; they are not yet
-  editable in the admin panel.
-- The original template sections (Hero, Services, Stats, FAQ, Testimonials,
-  WhyChooseUs, TechStack) still use their own hard-coded colors and do not yet
-  read the theme palette. Only the new sections, footer, admin and back buttons use it.
-- Navbar logo is not yet connected to the logo field.
-- The project was assembled without network access, so `npm install` and
-  `npm run build` were not run here. Run them locally first; fix any type
-  error the build reports and tell me the message.
+For an existing Supabase database, back it up first. `FULL-SETUP.sql` is intended for a fresh project and should not be rerun on a live database without reviewing its effects.
 
+### Environment variables
 
-## Final setup (Aniket Jamunde)
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | Recommended | Canonical site URL, for example `http://localhost:3000` locally and `https://aniketwebdev.in` in production. |
+| `NEXT_PUBLIC_SUPABASE_URL` | Yes | Supabase project URL. |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes | Supabase anon/public key. Row-level security protects database access. |
+| `GROQ_API_KEY` | Optional | Enables responses from the AI chat assistant. Keep this secret on the server. |
+| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | Optional | Google Search Console verification token. |
+| `NEXT_PUBLIC_BUSINESS_CITY` | Optional | Business locality added to structured data. |
 
-1. New Supabase project: run `supabase/FULL-SETUP.sql` once in the SQL Editor.
-2. Create your admin login (Authentication -> Users), then run the admin insert shown below with that email.
-3. Copy `.env.example` to `.env.local` and fill in:
-   - `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` (Project Settings -> API)
-   - `GROQ_API_KEY` for the chat assistant (never commit this file)
-4. `npm install` (this installs `sharp`, used to convert uploaded images to WebP), then `npm run dev`.
-5. In the admin: check the client names and links, add your projects, testimonials and blog posts, and turn the chat on or off under Theme & Settings.
+Never commit `.env.local`, private API keys, or a Supabase `service_role` key. The app uses the anon key and Supabase row-level security.
 
-Existing site: back up the database first, then use `FULL-SETUP.sql` only if the missing tables or features are required.
+## Available commands
+
+```bash
+npm run dev    # Start the local development server
+npm run build  # Create a production build
+npm run start  # Serve the production build
+npm run lint   # Run the Next.js linter
+```
+
+## About Aniket
+
+Aniket Jamunde is a web and app developer based in Chhatrapati Sambhajinagar, Maharashtra, India. He works with businesses on websites, custom apps, e-commerce, SEO/AEO/GEO, and digital product development.
+
+- Website: [aniketwebdev.in](https://aniketwebdev.in)
+- Email: [aniketjamunde4@gmail.com](mailto:aniketjamunde4@gmail.com)
+- LinkedIn: [Aniket Jamunde](https://www.linkedin.com/in/aniketjamunde/)
+- Instagram: [@aniketwebdev_in](https://www.instagram.com/aniketwebdev_in/)
+- GitHub: [Aniketjamunde9146](https://github.com/Aniketjamunde9146/)
+
+## License
+
+Copyright © 2026 Aniket Jamunde. All rights reserved. See [LICENSE](LICENSE) for the terms governing use of this source code. Contact Aniket for licensing enquiries.
