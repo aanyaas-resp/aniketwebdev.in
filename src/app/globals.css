@@ -1,0 +1,374 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+.liquid-notch {
+  width: 128px;
+  height: 36px;
+  transition: width 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.liquid-notch:hover,
+.liquid-notch:focus-within {
+  width: min(calc(100vw - 56px), 1000px);
+}
+
+.liquid-notch-shape {
+  width: 100%;
+  height: 100%;
+}
+
+.liquid-notch-links {
+  padding-inline: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.liquid-notch:hover .liquid-notch-links,
+.liquid-notch:focus-within .liquid-notch-links {
+  opacity: 1;
+  pointer-events: auto;
+  transition-delay: 180ms;
+}
+
+@media (min-width: 640px) {
+  .liquid-notch-links {
+    padding-inline: 20%;
+  }
+}
+
+/* Keep the full site menu visible and usable on touch screens. */
+@media (max-width: 639px) {
+  .liquid-notch {
+    width: calc(100vw - 24px);
+    height: 44px;
+  }
+
+  .liquid-notch-links {
+    height: 30px;
+    grid-template-columns: minmax(0, 1fr) 96px minmax(0, 1fr);
+    padding-inline: 12px;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .liquid-notch-links > div:first-child { justify-content: flex-end; }
+  .liquid-notch-links > div:last-child { justify-content: flex-start; }
+  .liquid-notch-links > div > div { gap: 12px; }
+}
+
+.frame-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.frame-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.chat-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.chat-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.client-marquee {
+  --client-marquee-mask: linear-gradient(
+    to right,
+    transparent,
+    black 6%,
+    black 94%,
+    transparent
+  );
+  mask-image: var(--client-marquee-mask);
+  -webkit-mask-image: var(--client-marquee-mask);
+}
+
+.client-marquee-track {
+  animation: client-marquee-scroll 40s linear infinite;
+}
+
+.client-marquee:hover .client-marquee-track,
+.client-marquee:focus-within .client-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes client-marquee-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@property --magnetic-pill-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.magnetic-pill {
+  isolation: isolate;
+  background: var(--secondary);
+  transition: box-shadow 500ms ease-out;
+}
+
+/* Border: a 1px rotating ring, masked so the body shows through */
+.magnetic-pill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  padding: 1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--magnetic-pill-angle),
+    transparent 0deg,
+    rgba(143, 235, 215, 0.35) 35deg,
+    rgba(255, 255, 255, 0.9) 50deg,
+    rgba(238, 181, 154, 0.7) 68deg,
+    transparent 92deg 180deg,
+    rgba(143, 235, 215, 0.3) 225deg,
+    rgba(255, 255, 255, 0.8) 245deg,
+    rgba(238, 181, 154, 0.65) 265deg,
+    transparent 290deg 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: magnetic-pill-border-loop 6s linear infinite;
+}
+
+/* Glow: a blurred copy of the ring behind the pill */
+.magnetic-pill::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -2;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--magnetic-pill-angle),
+    transparent 0deg,
+    rgba(143, 235, 215, 0.5) 35deg,
+    rgba(255, 255, 255, 0.7) 50deg,
+    rgba(238, 181, 154, 0.6) 68deg,
+    transparent 92deg 180deg,
+    rgba(143, 235, 215, 0.45) 225deg,
+    rgba(255, 255, 255, 0.6) 245deg,
+    rgba(238, 181, 154, 0.55) 265deg,
+    transparent 290deg 360deg
+  );
+  filter: blur(8px);
+  opacity: 0.7;
+  pointer-events: none;
+  animation: magnetic-pill-border-loop 6s linear infinite;
+}
+
+.magnetic-pill:hover {
+  box-shadow: 0 0 18px rgba(143, 235, 215, 0.16);
+}
+
+@keyframes magnetic-pill-border-loop {
+  to {
+    --magnetic-pill-angle: 360deg;
+  }
+}
+
+/* Slow, faint glow behind the hero */
+.hero-glow {
+  animation: hero-glow-drift 20s ease-in-out infinite alternate;
+}
+
+@keyframes hero-glow-drift {
+  0% {
+    transform: translate3d(-2%, 0, 0) scale(1);
+    opacity: 0.35;
+  }
+  100% {
+    transform: translate3d(2%, -2%, 0) scale(1.08);
+    opacity: 0.6;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-glow,
+  .magnetic-pill::before,
+  .magnetic-pill::after,
+  .liquid-notch,
+  .liquid-notch-links,
+  .client-marquee-track {
+    animation: none;
+    transition: none;
+  }
+
+  .client-marquee {
+    overflow-x: auto;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+}
+/* ---------- Aniket Jamunde: reveal animations ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 800ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---------- Blur reveal family ---------- */
+.reveal-blur {
+  opacity: 0;
+  filter: blur(14px);
+  transform: translateY(32px);
+  transition:
+    opacity 1000ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 1000ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1000ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, filter, transform;
+}
+.reveal-blur.is-visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  transition:
+    opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal-scale.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Word-by-word blur heading: each word gets its own --i index */
+.blur-word {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(0.35em);
+  transition:
+    opacity 800ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 800ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--i, 0) * 70ms + var(--reveal-delay, 0ms));
+}
+.is-visible .blur-word {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-blur,
+  .reveal-scale,
+  .blur-word {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---------- Brand palette (from LinkedIn banner) ---------- */
+:root {
+  --accent: #d4f94a;       /* primary: banner lime */
+  --accent-ink: #0b0b0b;   /* text on primary */
+  --secondary: #0b0b0b;    /* secondary: banner black */
+  --highlight: #d4f94a;    /* highlight pill */
+  --background: #f4f8ea;   /* background: banner mint */
+  --foreground: #0b0b0b;   /* text */
+
+  /* Layout: one container width and gutter for every left-aligned section */
+  --site-max: 1400px;
+  --gutter: clamp(20px, 4vw, 64px);
+}
+
+.site-container {
+  width: 100%;
+  max-width: var(--site-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Highlighted keyword pill, like "empower your business" in the banner */
+.hl {
+  display: inline-block;
+  background: var(--highlight);
+  color: var(--accent-ink);
+  padding: 0 0.28em;
+  border-radius: 0.3em;
+  line-height: 1.15;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Loading states */
+@keyframes aniket-spin { to { transform: rotate(360deg); } }
+@keyframes aniket-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+@keyframes aniket-pulse-dot { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.6); opacity: 0.35; } }
+
+.skeleton {
+  background: linear-gradient(90deg, rgba(255,255,255,0.05), rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+  background-size: 200% 100%;
+  animation: aniket-shimmer 1.4s ease-in-out infinite;
+  border-radius: 14px;
+}
+.loader-spin { animation: aniket-spin 0.9s linear infinite; }
+.live-dot { animation: aniket-pulse-dot 1.8s ease-in-out infinite; }
+
+.admin-shell {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+@media print {
+  @page { size: A4; margin: 16mm; }
+  body { background: #fff !important; }
+  .no-print { display: none !important; }
+  .invoice-document { color: #0f172a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .invoice-document tr { break-inside: avoid; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton, .loader-spin, .live-dot { animation: none; }
+}

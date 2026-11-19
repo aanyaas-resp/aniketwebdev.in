@@ -1,0 +1,52 @@
+# Aniket Jamunde
+
+> Aniket Jamunde designs and builds websites, mobile apps, e-commerce experiences, search programs and AI automation for growing businesses.
+
+## Services
+- Website development: fast, SEO-ready websites for businesses and brands
+- App development: Android and iOS apps built with Flutter and modern web tech
+- Game development
+- SEO, AEO (answer engine optimization) and GEO (generative engine optimization)
+- E-commerce and Shopify stores
+- Ads optimization for Google and Meta campaigns
+
+## Key pages
+- Home: https://aniketwebdev.in/
+- Services: https://aniketwebdev.in/servicesweoffer
+- Blog: https://aniketwebdev.in/blog
+- Contact: https://aniketwebdev.in/contact
+
+## Local pages
+- Web developer in Aurangabad (Chhatrapati Sambhaji Nagar): https://aniketwebdev.in/developers/web-developer-aurangabad
+- Web developer in Pune: https://aniketwebdev.in/developers/web-developer-pune
+- App developer in Aurangabad (Chhatrapati Sambhaji Nagar): https://aniketwebdev.in/developers/app-developer-aurangabad
+- App developer in Pune: https://aniketwebdev.in/developers/app-developer-pune
+
+## Optional
+- Sitemap: https://aniketwebdev.in/sitemap.xml
+
+## Pune pages
+- Pune: https://aniketwebdev.in/cities/pune
+- Best web developer in Pune: https://aniketwebdev.in/developers/web-developer-pune
+- Best app developer in Pune: https://aniketwebdev.in/developers/app-developer-pune
+- Best SEO, AEO and GEO expert in Pune: https://aniketwebdev.in/developers/seo-aeo-geo-pune
+- Game developer in Pune: https://aniketwebdev.in/developers/game-developer-pune
+
+## City pages (Maharashtra)
+- Mumbai: https://aniketwebdev.in/cities/mumbai
+- Thane: https://aniketwebdev.in/cities/thane
+- Navi Mumbai: https://aniketwebdev.in/cities/navi-mumbai
+- Pune: https://aniketwebdev.in/cities/pune
+- Nagpur: https://aniketwebdev.in/cities/nagpur
+- Nashik: https://aniketwebdev.in/cities/nashik
+- Chhatrapati Sambhajinagar (Aurangabad): https://aniketwebdev.in/cities/chhatrapati-sambhajinagar
+- Solapur: https://aniketwebdev.in/cities/solapur
+- Kolhapur: https://aniketwebdev.in/cities/kolhapur
+- Amravati: https://aniketwebdev.in/cities/amravati
+- Sangli: https://aniketwebdev.in/cities/sangli
+- Akola: https://aniketwebdev.in/cities/akola
+- Latur: https://aniketwebdev.in/cities/latur
+- Nanded: https://aniketwebdev.in/cities/nanded
+- Jalgaon: https://aniketwebdev.in/cities/jalgaon
+- Dhule: https://aniketwebdev.in/cities/dhule
+- Ahilyanagar (Ahmednagar): https://aniketwebdev.in/cities/ahilyanagar
